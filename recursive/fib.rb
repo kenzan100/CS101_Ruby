@@ -7,4 +7,4 @@ def fib_iter(bn1, bn2, n)
   fib_iter((bn1 + bn2), bn1, (n-1))
 end
 
-p fib(10)
+p fib(100)
