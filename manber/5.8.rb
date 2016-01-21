@@ -26,7 +26,7 @@ def max_subsequence(arr, cur_max, tmp_max)
   n, *rest = arr
   return cur_max unless n
   tmp_max << n
-  tmp_max = [] if tmp_max.reduce(0){|accu,e| accu += e} < 0
+  tmp_max = [] if arr_sum.call(tmp_max) < 0
   if arr_sum.call(cur_max) <= arr_sum.call(tmp_max)
     cur_max = tmp_max.dup
   end
