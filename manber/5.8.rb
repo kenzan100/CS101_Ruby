@@ -1,4 +1,5 @@
 require 'pp'
+require 'byebug'
 
 def wrong_max_subsequence(arr, max_arr, state)
   n, *rest = arr
@@ -20,5 +21,16 @@ def wrong_max_subsequence(arr, max_arr, state)
   max_subsequence(rest, max_arr, state)
 end
 
-# pp max_subsequence([1, 0.5, -3, 10, -4, 0.4, 12, 2, -10], [], 'ongoing')
-# pp max_subsequence([2, -3, 1.5, -1, 3, -2, -3, 3], [], 'ongoing')
+def max_subsequence(arr, cur_max, tmp_max)
+  arr_sum = Proc.new{|ar| ar.reduce(0){|accu, e| accu += e}}
+  n, *rest = arr
+  return cur_max unless n
+  tmp_max << n
+  tmp_max = [] if tmp_max.reduce(0){|accu,e| accu += e} < 0
+  if arr_sum.call(cur_max) <= arr_sum.call(tmp_max)
+    cur_max = tmp_max.dup
+  end
+  max_subsequence(rest, cur_max, tmp_max)
+end
+
+pp max_subsequence([2, -3, 1.5, -1, 3, -2, -3, 3], [], [])
