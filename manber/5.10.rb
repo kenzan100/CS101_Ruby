@@ -35,49 +35,49 @@ def expo_knapsack(arr, k)
     end
   end
 
-  shifted = arr.shift
-  if already_knapsacked = expo_knapsack(arr, k)
+  first, *rest = arr
+  if already_knapsacked = expo_knapsack(rest, k)
     return already_knapsacked
   else
-    smaller_knapsack = k - shifted
+    smaller_knapsack = k - first
     return false if smaller_knapsack < 0
 
-    if already_small_knapsacked = expo_knapsack(arr, smaller_knapsack)
-      [shifted] + already_small_knapsacked
+    if already_small_knapsacked = expo_knapsack(rest, smaller_knapsack)
+      [first] + already_small_knapsacked
     else
       false
     end
   end
 end
 
-pp expo_knapsack([1,2,3], 6)
+pp expo_knapsack([2,3,5,6], 16)
 
 
-def dynamic_knapsack(arr, kk)
-  cell = Struct.new(:exist, :belong)
-  matrix = []
-  matrix[0] = []
-  matrix[0][0] = cell.new(true, false)
-  kk.times do |k|
-    matrix[0][k+1] = cell.new(false, false)
-  end
-  arr.length.times do |i|
-    kk.times do |k|
-      k += 1
-      matrix[i] ||= []
-      matrix[i][k] = cell.new(false, false)
-      if matrix[i-1][k].exist
-        matrix[i][k].exist  = true
-        matrix[i][k].belong = true
-      elsif (k - arr[i]) >= 0
-        if matrix[i-1][k - arr[i]].exist
-          matrix[i][k].exist  = true
-          matrix[i][k].belong = true
-        end
-      end
-    end
-  end
-  matrix
-end
-
-pp dynamic_knapsack([1,2,3], 6)
+# def dynamic_knapsack(arr, kk)
+#   cell = Struct.new(:exist, :belong)
+#   matrix = []
+#   matrix[0] = []
+#   matrix[0][0] = cell.new(true, false)
+#   kk.times do |k|
+#     matrix[0][k+1] = cell.new(false, false)
+#   end
+#   arr.length.times do |i|
+#     kk.times do |k|
+#       k += 1
+#       matrix[i] ||= []
+#       matrix[i][k] = cell.new(false, false)
+#       if matrix[i-1][k].exist
+#         matrix[i][k].exist  = true
+#         matrix[i][k].belong = true
+#       elsif (k - arr[i]) >= 0
+#         if matrix[i-1][k - arr[i]].exist
+#           matrix[i][k].exist  = true
+#           matrix[i][k].belong = true
+#         end
+#       end
+#     end
+#   end
+#   matrix
+# end
+#
+# pp dynamic_knapsack([1,2,3], 6)
